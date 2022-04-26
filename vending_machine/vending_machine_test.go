@@ -16,7 +16,7 @@ func TestVendingMachine(t *testing.T) {
 		machine := InitVendingMachine(testCase.choices)
 		deliveredDrink := machine.Deliver("cola")
 		if deliveredDrink != testCase.drink {
-			t.Errorf("VendingMachine(%v) == %v, want %v", testCase.choices, deliveredDrink, testCase.want)
+			t.Errorf("VendingMachine(%v) == %v, want %v", testCase.choices, deliveredDrink, testCase.drink)
 		}
 	}
 }
