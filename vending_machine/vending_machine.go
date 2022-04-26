@@ -14,12 +14,17 @@ const (
 )
 
 func InitVendingMachine(choices []Choice) *VendingMachine {
-	return &VendingMachine{}
+	return &VendingMachine{choices}
 }
 
 type VendingMachine struct {
+	choices []Choice
 }
 
 func (vm *VendingMachine) Deliver(choice Choice) Drink {
-	return None
+	if len(vm.choices) == 0 {
+		return None
+	}
+
+	return Coke
 }
