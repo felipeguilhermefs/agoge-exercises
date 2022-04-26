@@ -15,18 +15,18 @@ const (
 	Fanta Drink = 2
 )
 
-func InitVendingMachine(choices []Choice) *VendingMachine {
-	return &VendingMachine{choices}
+func InitVendingMachine(options map[Choice]Drink) *VendingMachine {
+	return &VendingMachine{options}
 }
 
 type VendingMachine struct {
-	choices []Choice
+	options map[Choice]Drink
 }
 
 func (vm *VendingMachine) Deliver(choice Choice) Drink {
-	if len(vm.choices) == 0 {
+	if len(vm.options) == 0 {
 		return None
 	}
 
-	return Coke
+	return vm.options[choice]
 }
