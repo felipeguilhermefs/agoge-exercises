@@ -7,9 +7,9 @@ func TestVendingMachine(t *testing.T) {
 	cases := []struct {
 		description string
 		choices []Choice
-		drink string
+		drink Drink
 	}{
-		{"choiceless machine delivers nothing", make([]Choice, 0), ""},
+		{"choiceless machine delivers nothing", make([]Choice, 0), None},
 	}
 
 	for _, testCase := range cases {

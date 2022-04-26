@@ -6,6 +6,12 @@ const (
 	Cola Choice = 0
 )
 
+type Drink int
+
+const (
+	None Drink = 0
+)
+
 func InitVendingMachine(choices []Choice) *VendingMachine {
 	return &VendingMachine{}
 }
@@ -13,6 +19,6 @@ func InitVendingMachine(choices []Choice) *VendingMachine {
 type VendingMachine struct {
 }
 
-func (vm *VendingMachine) Deliver(choice Choice) string {
-	return ""
+func (vm *VendingMachine) Deliver(choice Choice) Drink {
+	return None
 }
