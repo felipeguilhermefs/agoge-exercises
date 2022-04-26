@@ -10,6 +10,7 @@ func TestVendingMachine(t *testing.T) {
 		drink Drink
 	}{
 		{"choiceless machine delivers nothing", make([]Choice, 0), None},
+		{"choosing Cola delivers Coke", []Choice{Cola}, Coke},
 	}
 
 	for _, testCase := range cases {
