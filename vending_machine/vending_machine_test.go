@@ -54,7 +54,7 @@ func TestVendingMachine(t *testing.T) {
 
 	for _, testCase := range cases {
 		machine := InitVendingMachine(testCase.options, testCase.price)
-		machine.deposit(testCase.deposit)
+		machine.Deposit(testCase.deposit)
 		deliveredDrink := machine.Deliver(testCase.choice)
 		if deliveredDrink != testCase.drink {
 			t.Errorf("VendingMachine(%v) == %v, want %v", testCase.choice, deliveredDrink, testCase.drink)
