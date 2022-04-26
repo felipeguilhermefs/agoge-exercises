@@ -26,10 +26,10 @@ type VendingMachine struct {
 }
 
 func (vm *VendingMachine) Deliver(choice Choice) Drink {
-	if vm.price != vm.credits {
-		return None
+	if vm.price <= vm.credits {
+		return vm.options[choice]
 	}
-	return vm.options[choice]
+	return None
 }
 
 func (vm *VendingMachine) Deposit(amount int) {

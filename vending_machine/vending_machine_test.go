@@ -79,7 +79,7 @@ func TestVendingMachine(t *testing.T) {
 		machine.Deposit(testCase.deposit)
 		deliveredDrink := machine.Deliver(testCase.choice)
 		if deliveredDrink != testCase.drink {
-			t.Errorf("VendingMachine(%v) == %v, want %v", testCase.choice, deliveredDrink, testCase.drink)
+			t.Errorf("%v: VendingMachine(%v) == %v, want %v", testCase.description, testCase.choice, deliveredDrink, testCase.drink)
 		}
 	}
 }
