@@ -6,15 +6,15 @@ import "testing"
 func TestVendingMachine(t *testing.T) {
 	cases := []struct {
 		description string
-		choices []string
+		choices []Choice
 		drink string
 	}{
-		{"choiceless machine delivers nothing", make([]string, 0), ""},
+		{"choiceless machine delivers nothing", make([]Choice, 0), ""},
 	}
 
 	for _, testCase := range cases {
 		machine := InitVendingMachine(testCase.choices)
-		deliveredDrink := machine.Deliver("cola")
+		deliveredDrink := machine.Deliver(Cola)
 		if deliveredDrink != testCase.drink {
 			t.Errorf("VendingMachine(%v) == %v, want %v", testCase.choices, deliveredDrink, testCase.drink)
 		}
