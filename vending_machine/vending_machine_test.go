@@ -61,6 +61,17 @@ func TestVendingMachine(t *testing.T) {
 			Cola,
 			Coke,
 		},
+		{
+			"delivers Fanta when deposit is more than enough", 
+			map[Choice]Drink{
+				Cola: Coke,
+				FizzyOrange: Fanta,
+			},
+			150,
+			200,
+			FizzyOrange,
+			Fanta,
+		},
 	}
 
 	for _, testCase := range cases {
