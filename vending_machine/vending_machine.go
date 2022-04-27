@@ -26,7 +26,7 @@ func InitVendingMachine(options map[Choice]Drink, price int) VendingMachine {
 
 type vendingMachine struct {
 	options map[Choice]Drink
-	price int
+	price   int
 	credits int
 }
 
