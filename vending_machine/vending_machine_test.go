@@ -4,7 +4,7 @@ import "testing"
 
 func TestChoicelessMachineReturnsNothing(t *testing.T) {
 	noProducts := map[Choice]Product{}
-	machine := InitVendingMachineWithProducts(noProducts)
+	machine := InitVendingMachine(noProducts)
 
 	assetEquals(t, None, machine.Deliver(Cola))
 }
@@ -67,7 +67,7 @@ func setupPricedVendingMachine() VendingMachine {
 		Cola:        {Coke, 200},
 		FizzyOrange: {Fanta, 150},
 	}
-	return InitVendingMachineWithProducts(products)
+	return InitVendingMachine(products)
 }
 
 func setupFreeVendingMachine() VendingMachine {
@@ -75,7 +75,7 @@ func setupFreeVendingMachine() VendingMachine {
 		Cola:        {Coke, 0},
 		FizzyOrange: {Fanta, 0},
 	}
-	return InitVendingMachineWithProducts(products)
+	return InitVendingMachine(products)
 }
 
 func assetEquals(t *testing.T, expected Drink, received Drink) {
