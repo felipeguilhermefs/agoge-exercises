@@ -15,24 +15,33 @@ const (
 	Fanta Drink = 2
 )
 
+type Product struct {
+	drink Drink
+	price int
+}
+
 type VendingMachine interface {
 	Deliver(choice Choice) Drink
 	Deposit(amount int)
 }
 
 func InitVendingMachine(options map[Choice]Drink, prices map[Choice]int) VendingMachine {
-	return &vendingMachine{options, prices, 0}
+	products := make(map[Choice]Product)
+	for choice, drink := range options {
+		products[choice] = Product{drink, prices[choice]}
+	}
+	return &vendingMachine{products, 0}
 }
 
 type vendingMachine struct {
-	options map[Choice]Drink
-	prices  map[Choice]int
-	credits int
+	products map[Choice]Product
+	credits  int
 }
 
 func (vm *vendingMachine) Deliver(choice Choice) Drink {
-	if vm.prices[choice] <= vm.credits {
-		return vm.options[choice]
+	product := vm.products[choice]
+	if product.price <= vm.credits {
+		return product.drink
 	}
 	return None
 }
