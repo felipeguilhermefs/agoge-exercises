@@ -2,6 +2,27 @@ package main
 
 import "testing"
 
+// TestChoicelessVendingMachine test behaviour when there is no choice
+func TestChoicelessVendingMachine(t *testing.T) {
+	noChoice := map[Choice]Drink{}
+	machine := InitVendingMachine(noChoice, 0)
+
+	testCases := []struct {
+		choice Choice
+		drink Drink
+	}{
+		{Cola, None},
+		{FizzyOrange, None},
+	}
+
+	for _, testCase := range testCases {
+		deliveredDrink := machine.Deliver(testCase.choice)
+		if deliveredDrink != testCase.drink {
+			t.Errorf("TestChoicelessVendingMachine (%v) == %v, want %v", testCase.choice, deliveredDrink, testCase.drink)
+		}
+	}
+}
+
 // TestVendingMachine general test suite for VendingMachine
 func TestVendingMachine(t *testing.T) {
 	cases := []struct {
@@ -12,14 +33,6 @@ func TestVendingMachine(t *testing.T) {
 		choice Choice
 		drink Drink
 	}{
-		{
-			"choiceless machine delivers nothing", 
-			map[Choice]Drink{},
-			0,
-			0,
-			Cola,
-			None,
-		},
 		{
 			"choosing Cola delivers Coke", 
 			map[Choice]Drink{Cola: Coke},
@@ -72,7 +85,6 @@ func TestVendingMachine(t *testing.T) {
 			FizzyOrange,
 			Fanta,
 		},
-
 		{
 			"delivers nothing when deposit is not enough", 
 			map[Choice]Drink{
