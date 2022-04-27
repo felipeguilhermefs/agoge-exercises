@@ -20,16 +20,7 @@ type VendingMachine interface {
 	Deposit(amount int)
 }
 
-func InitVendingMachine(options map[Choice]Drink, price int) VendingMachine {
-	prices := make(map[Choice]int)
-	for choice, _ := range options {
-		prices[choice] = price
-	}
-
-	return InitVendingMachineMultiplePrices(options, prices)
-}
-
-func InitVendingMachineMultiplePrices(options map[Choice]Drink, prices map[Choice]int) VendingMachine {
+func InitVendingMachine(options map[Choice]Drink, prices map[Choice]int) VendingMachine {
 	return &vendingMachine{options, prices, 0}
 }
 
