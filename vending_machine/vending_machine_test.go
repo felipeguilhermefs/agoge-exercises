@@ -2,106 +2,109 @@ package main
 
 import "testing"
 
-// TestChoicelessVendingMachine test behaviour when there is no choice
-func TestChoicelessVendingMachine(t *testing.T) {
+func TestChoicelessMachineReturnsNothing(t *testing.T) {
 	noChoice := map[Choice]Drink{}
 	machine := InitVendingMachine(noChoice, 0)
 
-	testCases := []struct {
-		choice Choice
-		drink  Drink
-	}{
-		{Cola, None},
-		{FizzyOrange, None},
-	}
+	deliveredDrink := machine.Deliver(Cola)
 
-	for _, testCase := range testCases {
-		deliveredDrink := machine.Deliver(testCase.choice)
-		if deliveredDrink != testCase.drink {
-			t.Errorf("TestChoicelessVendingMachine (%v) == %v, want %v", testCase.choice, deliveredDrink, testCase.drink)
-		}
+	if deliveredDrink != None {
+		t.Errorf("(%v) == %v, want %v", Cola, deliveredDrink, None)
 	}
 }
 
-// TestFreeVendingMachine test behaviour when there is no price
-func TestFreeVendingMachine(t *testing.T) {
+func TestDeliversCokeWhenColaIsChosen(t *testing.T) {
 	options := map[Choice]Drink{
 		Cola:        Coke,
 		FizzyOrange: Fanta,
 	}
-	noPrice := 0
-	machine := InitVendingMachine(options, noPrice)
+	machine := InitVendingMachine(options, 0)
 
-	testCases := []struct {
-		choice Choice
-		drink  Drink
-	}{
-		{Cola, Coke},
-		{FizzyOrange, Fanta},
-	}
+	deliveredDrink := machine.Deliver(Cola)
 
-	for _, testCase := range testCases {
-		deliveredDrink := machine.Deliver(testCase.choice)
-		if deliveredDrink != testCase.drink {
-			t.Errorf("TestFreeVendingMachine (%v) == %v, want %v", testCase.choice, deliveredDrink, testCase.drink)
-		}
+	if deliveredDrink != Coke {
+		t.Errorf("(%v) == %v, want %v", Cola, deliveredDrink, Coke)
 	}
 }
 
-// TestPricedVendingMachine test behaviour when there is a price for drinks
-func TestPricedVendingMachine(t *testing.T) {
+func TestDeliversFantaWhenFizzyOrangeIsChosen(t *testing.T) {
+	options := map[Choice]Drink{
+		Cola:        Coke,
+		FizzyOrange: Fanta,
+	}
+	machine := InitVendingMachine(options, 0)
+
+	deliveredDrink := machine.Deliver(FizzyOrange)
+
+	if deliveredDrink != Fanta {
+		t.Errorf("(%v) == %v, want %v", Cola, deliveredDrink, Fanta)
+	}
+}
+
+func TestDeliversNothingWithoutMoney(t *testing.T) {
 	options := map[Choice]Drink{
 		Cola:        Coke,
 		FizzyOrange: Fanta,
 	}
 	price := 200
+	machine := InitVendingMachine(options, price)
 
-	testCases := []struct {
-		name    string
-		deposit int
-		choice  Choice
-		drink   Drink
-	}{
-		{
-			"delivers nothing without money",
-			0,
-			FizzyOrange,
-			None,
-		},
-		{
-			"delivers Coke when exact amount was deposited",
-			200,
-			Cola,
-			Coke,
-		},
-		{
-			"delivers Fanta when deposit is more than enough",
-			250,
-			FizzyOrange,
-			Fanta,
-		},
-		{
-			"delivers nothing when deposit is not enough",
-			150,
-			FizzyOrange,
-			None,
-		},
+	machine.Deposit(0)
+
+	deliveredDrink := machine.Deliver(FizzyOrange)
+
+	if deliveredDrink != None {
+		t.Errorf("(%v) == %v, want %v", Cola, deliveredDrink, None)
 	}
+}
 
-	for _, testCase := range testCases {
-		machine := InitVendingMachine(options, price)
+func TestDeliversCokeWhenExactAmountWasDeposited(t *testing.T) {
+	options := map[Choice]Drink{
+		Cola:        Coke,
+		FizzyOrange: Fanta,
+	}
+	price := 200
+	machine := InitVendingMachine(options, price)
 
-		machine.Deposit(testCase.deposit)
+	machine.Deposit(200)
 
-		deliveredDrink := machine.Deliver(testCase.choice)
-		if deliveredDrink != testCase.drink {
-			t.Errorf(
-				"%v: TestPricedVendingMachine(%v) == %v, want %v",
-				testCase.name,
-				testCase.choice,
-				deliveredDrink,
-				testCase.drink,
-			)
-		}
+	deliveredDrink := machine.Deliver(Cola)
+
+	if deliveredDrink != Coke {
+		t.Errorf("(%v) == %v, want %v", Cola, deliveredDrink, Coke)
+	}
+}
+
+func TestDeliversFantaWhenDepositIsMoreThanEnough(t *testing.T) {
+	options := map[Choice]Drink{
+		Cola:        Coke,
+		FizzyOrange: Fanta,
+	}
+	price := 150
+	machine := InitVendingMachine(options, price)
+
+	machine.Deposit(200)
+
+	deliveredDrink := machine.Deliver(FizzyOrange)
+
+	if deliveredDrink != Fanta {
+		t.Errorf("(%v) == %v, want %v", FizzyOrange, deliveredDrink, Fanta)
+	}
+}
+
+func TestDeliversNothingWhenDepositIsNotEnough(t *testing.T) {
+	options := map[Choice]Drink{
+		Cola:        Coke,
+		FizzyOrange: Fanta,
+	}
+	price := 150
+	machine := InitVendingMachine(options, price)
+
+	machine.Deposit(100)
+
+	deliveredDrink := machine.Deliver(FizzyOrange)
+
+	if deliveredDrink != None {
+		t.Errorf("(%v) == %v, want %v", FizzyOrange, deliveredDrink, None)
 	}
 }
