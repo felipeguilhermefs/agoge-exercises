@@ -66,8 +66,6 @@ func TestDeliversCokeAfterDepositIsEnough(t *testing.T) {
 	machine := setupPricedVendingMachine()
 
 	machine.Deposit(150)
-	assetEquals(t, None, machine.Deliver(Cola))
-
 	machine.Deposit(50)
 	assetEquals(t, Coke, machine.Deliver(Cola))
 }
@@ -76,7 +74,7 @@ func TestDeliversCokeThenNothingAfterDepositIsDepleted(t *testing.T) {
 	machine := setupPricedVendingMachine()
 
 	machine.Deposit(200)
-	assetEquals(t, Coke, machine.Deliver(Cola))
+	machine.Deliver(Cola)
 	assetEquals(t, None, machine.Deliver(Cola))
 }
 
