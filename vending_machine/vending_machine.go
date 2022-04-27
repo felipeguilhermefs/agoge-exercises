@@ -43,5 +43,5 @@ func (vm *vendingMachine) Deliver(choice Choice) Drink {
 }
 
 func (vm *vendingMachine) Deposit(amount int) {
-	vm.credits = amount
+	vm.credits += amount
 }
