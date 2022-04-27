@@ -76,12 +76,11 @@ func setupPricedVendingMachine() VendingMachine {
 }
 
 func setupFreeVendingMachine() VendingMachine {
-	options := map[Choice]Drink{
-		Cola:        Coke,
-		FizzyOrange: Fanta,
+	products := map[Choice]Product{
+		Cola:        {Coke, 0},
+		FizzyOrange: {Fanta, 0},
 	}
-	noPrice := map[Choice]int{}
-	return InitVendingMachine(options, noPrice)
+	return InitVendingMachineWithProducts(products)
 }
 
 func assetEquals(t *testing.T, expected Drink, received Drink) {
