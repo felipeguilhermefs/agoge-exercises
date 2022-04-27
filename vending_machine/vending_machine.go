@@ -37,6 +37,7 @@ type vendingMachine struct {
 func (vm *vendingMachine) Deliver(choice Choice) Drink {
 	product := vm.products[choice]
 	if product.price <= vm.credits {
+		vm.credits -= product.price
 		return product.drink
 	}
 	return None
