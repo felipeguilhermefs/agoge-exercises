@@ -23,15 +23,7 @@ func TestDeliversFantaWhenFizzyOrangeIsChosen(t *testing.T) {
 }
 
 func TestDeliversNothingWithoutMoney(t *testing.T) {
-	options := map[Choice]Drink{
-		Cola:        Coke,
-		FizzyOrange: Fanta,
-	}
-	prices := map[Choice]int{
-		Cola:        200,
-		FizzyOrange: 150,
-	}
-	machine := InitVendingMachine(options, prices)
+	machine := setupPricedVendingMachine()
 
 	machine.Deposit(0)
 
@@ -39,15 +31,7 @@ func TestDeliversNothingWithoutMoney(t *testing.T) {
 }
 
 func TestDeliversCokeWhenExactAmountWasDeposited(t *testing.T) {
-	options := map[Choice]Drink{
-		Cola:        Coke,
-		FizzyOrange: Fanta,
-	}
-	prices := map[Choice]int{
-		Cola:        200,
-		FizzyOrange: 150,
-	}
-	machine := InitVendingMachine(options, prices)
+	machine := setupPricedVendingMachine()
 
 	machine.Deposit(200)
 
@@ -55,15 +39,7 @@ func TestDeliversCokeWhenExactAmountWasDeposited(t *testing.T) {
 }
 
 func TestDeliversFantaWhenDepositIsMoreThanEnough(t *testing.T) {
-	options := map[Choice]Drink{
-		Cola:        Coke,
-		FizzyOrange: Fanta,
-	}
-	prices := map[Choice]int{
-		Cola:        200,
-		FizzyOrange: 150,
-	}
-	machine := InitVendingMachine(options, prices)
+	machine := setupPricedVendingMachine()
 
 	machine.Deposit(200)
 
@@ -71,15 +47,7 @@ func TestDeliversFantaWhenDepositIsMoreThanEnough(t *testing.T) {
 }
 
 func TestDeliversNothingWhenDepositIsNotEnough(t *testing.T) {
-	options := map[Choice]Drink{
-		Cola:        Coke,
-		FizzyOrange: Fanta,
-	}
-	prices := map[Choice]int{
-		Cola:        200,
-		FizzyOrange: 150,
-	}
-	machine := InitVendingMachine(options, prices)
+	machine := setupPricedVendingMachine()
 
 	machine.Deposit(100)
 
@@ -87,6 +55,15 @@ func TestDeliversNothingWhenDepositIsNotEnough(t *testing.T) {
 }
 
 func TestDeliversFantaWhenMoneyIsEnoughForFantaButNotForCoke(t *testing.T) {
+	machine := setupPricedVendingMachine()
+
+	machine.Deposit(150)
+
+	assetEquals(t, None, machine.Deliver(Cola))
+	assetEquals(t, Fanta, machine.Deliver(FizzyOrange))
+}
+
+func setupPricedVendingMachine() VendingMachine {
 	options := map[Choice]Drink{
 		Cola:        Coke,
 		FizzyOrange: Fanta,
@@ -95,12 +72,7 @@ func TestDeliversFantaWhenMoneyIsEnoughForFantaButNotForCoke(t *testing.T) {
 		Cola:        200,
 		FizzyOrange: 150,
 	}
-	machine := InitVendingMachine(options, prices)
-
-	machine.Deposit(150)
-
-	assetEquals(t, None, machine.Deliver(Cola))
-	assetEquals(t, Fanta, machine.Deliver(FizzyOrange))
+	return InitVendingMachine(options, prices)
 }
 
 func setupFreeVendingMachine() VendingMachine {
