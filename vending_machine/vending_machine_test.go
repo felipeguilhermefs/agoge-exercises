@@ -86,11 +86,11 @@ func TestDeliversFantaWhenMoneyIsEnoughForFantaButNotForCoke(t *testing.T) {
 		Cola:        Coke,
 		FizzyOrange: Fanta,
 	}
-	prices := map[Choice]int {
-		Cola: 200,
+	prices := map[Choice]int{
+		Cola:        200,
 		FizzyOrange: 150,
 	}
-	machine := InitVendingMachine(options, prices)
+	machine := InitVendingMachineMultiplePrices(options, prices)
 
 	machine.Deposit(150)
 

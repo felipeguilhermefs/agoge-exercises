@@ -21,17 +21,26 @@ type VendingMachine interface {
 }
 
 func InitVendingMachine(options map[Choice]Drink, price int) VendingMachine {
-	return &vendingMachine{options, price, 0}
+	prices := make(map[Choice]int)
+	for choice, _ := range options {
+		prices[choice] = price
+	}
+
+	return InitVendingMachineMultiplePrices(options, prices)
+}
+
+func InitVendingMachineMultiplePrices(options map[Choice]Drink, prices map[Choice]int) VendingMachine {
+	return &vendingMachine{options, prices, 0}
 }
 
 type vendingMachine struct {
 	options map[Choice]Drink
-	price   int
+	prices  map[Choice]int
 	credits int
 }
 
 func (vm *vendingMachine) Deliver(choice Choice) Drink {
-	if vm.price <= vm.credits {
+	if vm.prices[choice] <= vm.credits {
 		return vm.options[choice]
 	}
 	return None
