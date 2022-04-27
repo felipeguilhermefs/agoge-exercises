@@ -6,11 +6,7 @@ func TestChoicelessMachineReturnsNothing(t *testing.T) {
 	noChoice := map[Choice]Drink{}
 	machine := InitVendingMachine(noChoice, 0)
 
-	deliveredDrink := machine.Deliver(Cola)
-
-	if deliveredDrink != None {
-		t.Errorf("(%v) == %v, want %v", Cola, deliveredDrink, None)
-	}
+	assetEquals(t, None, machine.Deliver(Cola))
 }
 
 func TestDeliversCokeWhenColaIsChosen(t *testing.T) {
@@ -20,11 +16,7 @@ func TestDeliversCokeWhenColaIsChosen(t *testing.T) {
 	}
 	machine := InitVendingMachine(options, 0)
 
-	deliveredDrink := machine.Deliver(Cola)
-
-	if deliveredDrink != Coke {
-		t.Errorf("(%v) == %v, want %v", Cola, deliveredDrink, Coke)
-	}
+	assetEquals(t, Coke, machine.Deliver(Cola))
 }
 
 func TestDeliversFantaWhenFizzyOrangeIsChosen(t *testing.T) {
@@ -34,11 +26,7 @@ func TestDeliversFantaWhenFizzyOrangeIsChosen(t *testing.T) {
 	}
 	machine := InitVendingMachine(options, 0)
 
-	deliveredDrink := machine.Deliver(FizzyOrange)
-
-	if deliveredDrink != Fanta {
-		t.Errorf("(%v) == %v, want %v", Cola, deliveredDrink, Fanta)
-	}
+	assetEquals(t, Fanta, machine.Deliver(FizzyOrange))
 }
 
 func TestDeliversNothingWithoutMoney(t *testing.T) {
@@ -51,11 +39,7 @@ func TestDeliversNothingWithoutMoney(t *testing.T) {
 
 	machine.Deposit(0)
 
-	deliveredDrink := machine.Deliver(FizzyOrange)
-
-	if deliveredDrink != None {
-		t.Errorf("(%v) == %v, want %v", Cola, deliveredDrink, None)
-	}
+	assetEquals(t, None, machine.Deliver(FizzyOrange))
 }
 
 func TestDeliversCokeWhenExactAmountWasDeposited(t *testing.T) {
@@ -68,11 +52,7 @@ func TestDeliversCokeWhenExactAmountWasDeposited(t *testing.T) {
 
 	machine.Deposit(200)
 
-	deliveredDrink := machine.Deliver(Cola)
-
-	if deliveredDrink != Coke {
-		t.Errorf("(%v) == %v, want %v", Cola, deliveredDrink, Coke)
-	}
+	assetEquals(t, Coke, machine.Deliver(Cola))
 }
 
 func TestDeliversFantaWhenDepositIsMoreThanEnough(t *testing.T) {
@@ -85,11 +65,7 @@ func TestDeliversFantaWhenDepositIsMoreThanEnough(t *testing.T) {
 
 	machine.Deposit(200)
 
-	deliveredDrink := machine.Deliver(FizzyOrange)
-
-	if deliveredDrink != Fanta {
-		t.Errorf("(%v) == %v, want %v", FizzyOrange, deliveredDrink, Fanta)
-	}
+	assetEquals(t, Fanta, machine.Deliver(FizzyOrange))
 }
 
 func TestDeliversNothingWhenDepositIsNotEnough(t *testing.T) {
@@ -102,9 +78,11 @@ func TestDeliversNothingWhenDepositIsNotEnough(t *testing.T) {
 
 	machine.Deposit(100)
 
-	deliveredDrink := machine.Deliver(FizzyOrange)
+	assetEquals(t, None, machine.Deliver(FizzyOrange))
+}
 
-	if deliveredDrink != None {
-		t.Errorf("(%v) == %v, want %v", FizzyOrange, deliveredDrink, None)
+func assetEquals(t *testing.T, expected Drink, received Drink) {
+	if expected != received {
+		t.Errorf("Expected %v, received %v", expected, received)
 	}
 }
