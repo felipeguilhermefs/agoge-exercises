@@ -11,23 +11,13 @@ func TestChoicelessMachineReturnsNothing(t *testing.T) {
 }
 
 func TestDeliversCokeWhenColaIsChosen(t *testing.T) {
-	options := map[Choice]Drink{
-		Cola:        Coke,
-		FizzyOrange: Fanta,
-	}
-	noPrice := map[Choice]int{}
-	machine := InitVendingMachine(options, noPrice)
+	machine := setupFreeVendingMachine()
 
 	assetEquals(t, Coke, machine.Deliver(Cola))
 }
 
 func TestDeliversFantaWhenFizzyOrangeIsChosen(t *testing.T) {
-	options := map[Choice]Drink{
-		Cola:        Coke,
-		FizzyOrange: Fanta,
-	}
-	noPrice := map[Choice]int{}
-	machine := InitVendingMachine(options, noPrice)
+	machine := setupFreeVendingMachine()
 
 	assetEquals(t, Fanta, machine.Deliver(FizzyOrange))
 }
@@ -111,6 +101,15 @@ func TestDeliversFantaWhenMoneyIsEnoughForFantaButNotForCoke(t *testing.T) {
 
 	assetEquals(t, None, machine.Deliver(Cola))
 	assetEquals(t, Fanta, machine.Deliver(FizzyOrange))
+}
+
+func setupFreeVendingMachine() VendingMachine {
+	options := map[Choice]Drink{
+		Cola:        Coke,
+		FizzyOrange: Fanta,
+	}
+	noPrice := map[Choice]int{}
+	return InitVendingMachine(options, noPrice)
 }
 
 func assetEquals(t *testing.T, expected Drink, received Drink) {
