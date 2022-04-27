@@ -3,9 +3,8 @@ package main
 import "testing"
 
 func TestChoicelessMachineReturnsNothing(t *testing.T) {
-	noChoice := map[Choice]Drink{}
-	noPrice := map[Choice]int{}
-	machine := InitVendingMachine(noChoice, noPrice)
+	noProducts := map[Choice]Product{}
+	machine := InitVendingMachineWithProducts(noProducts)
 
 	assetEquals(t, None, machine.Deliver(Cola))
 }
