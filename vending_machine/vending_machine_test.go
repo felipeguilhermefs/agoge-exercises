@@ -64,15 +64,11 @@ func TestDeliversFantaWhenMoneyIsEnoughForFantaButNotForCoke(t *testing.T) {
 }
 
 func setupPricedVendingMachine() VendingMachine {
-	options := map[Choice]Drink{
-		Cola:        Coke,
-		FizzyOrange: Fanta,
+	products := map[Choice]Product{
+		Cola:        {Coke, 200},
+		FizzyOrange: {Fanta, 150},
 	}
-	prices := map[Choice]int{
-		Cola:        200,
-		FizzyOrange: 150,
-	}
-	return InitVendingMachine(options, prices)
+	return InitVendingMachineWithProducts(products)
 }
 
 func setupFreeVendingMachine() VendingMachine {
